@@ -1,180 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications | Xuebo Liu</title>
 
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-    <title>🀄Xuebo Liu's Publications🀄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style type="text/css">
-        body{font-family:  Heletica, Verdana,  century, arial, calibri, dotum, gulim, garamond;}
-    </style></head>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e293b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* 布局结构 */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 200px 1fr; /* 左侧导航 200px，右侧内容自适应 */
+            gap: 40px;
+        }
+
+        /* 左侧年份导航 (Sticky) */
+        .year-nav {
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .nav-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .year-link {
+            display: block;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            color: var(--text-main);
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .year-link:hover, .year-link.active {
+            background: #e0f2fe;
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .back-btn:hover { transform: translateX(-5px); }
+
+        /* 右侧内容区 */
+        .content-area { display: flex; flex-direction: column; gap: 40px; }
+
+        /* 头部 */
+        .page-header {
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* 年份区块 */
+        .year-section { scroll-margin-top: 40px; }
+
+        .year-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .year-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* 论文卡片列表 */
+        .paper-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .paper-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .paper-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-color: #cbd5e1;
+        }
+
+        .paper-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .paper-authors {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .paper-venue {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-style: italic;
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: #eff6ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* 链接按钮 */
+        .link-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag-btn {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .tag-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: white;
+        }
+
+        .tag-btn i { font-size: 0.9em; }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .year-nav { display: none; }
+        }
+    </style>
+</head>
 <body>
-<h2>Xuebo Liu</h2>
-<p align="left"><b>Associate Professor of Computer Science</b><br>
-    <a href="https://faculty.hitsz.edu.cn/liuxuebo">Harbin Institute of Technology, Shenzhen</a><br>
-    <a href="https://scholar.google.com/citations?user=XkDl9aoAAAAJ&hl=en">Google Scholar</a><br>
-<p align="left"><b>liuxuebo@hit.edu.cn</b><br>
-</p>
+
+<div class="container">
+
+    <nav class="year-nav">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <div class="nav-title">Timeline</div>
+        <a href="#y2026" class="year-link">2026</a>
+        <a href="#y2025" class="year-link">2025</a>
+        <a href="#y2024" class="year-link">2024</a>
+        <a href="#y2023" class="year-link">2023</a>
+        <a href="#y2022" class="year-link">2022</a>
+        <a href="#y2021" class="year-link">2021</a>
+        <a href="#y2020" class="year-link">Until 2020</a>
+    </nav>
+
+    <main class="content-area">
+
+        <header class="page-header">
+            <div class="page-title">Publications</div>
+            <div class="page-subtitle">Full list of published works by Xuebo Liu</div>
+        </header>
+
+        <section id="y2026" class="year-section">
+            <div class="year-header">2026</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">Exposing the Cracks: Vulnerabilities of Retrieval-Augmented LLM-based Machine Translation</div>
+                    <div class="paper-authors">Yanming Sun, Runzhe Zhan, Chi Seng Cheang, Han Wu, Xuebo Liu, Yuyao Niu, Fengying Ye, Kaixin Lan, Lidia S. Chao, Derek F. Wong</div>
+                    <div class="paper-venue">Proceedings of AAAI 2026</div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="y2025" class="year-section">
+            <div class="year-header">2025</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">AgentDropout: Dynamic Agent Elimination for Token-Efficient and High-Performance LLM-Based Multi-Agent Collaboration</div>
+                    <div class="paper-authors">Zhexuan Wang, Yutong Wang, Xuebo Liu, Liang Ding, Miao Zhang, Jie Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2025</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">DRPruning: Efficient Large Language Model Pruning through Distributionally Robust Optimization</div>
+                    <div class="paper-authors">Hexuan Deng, Wenxiang Jiao, Xuebo Liu, Jing Li, Min Zhang, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ACL 2025</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">SGIC: A Self-Guided Iterative Calibration Framework for RAG</div>
+                    <div class="paper-authors">Guanhua Chen, Yutong Yao, Derek F. Wong, Xuebo Liu, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of ACL 2025</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">APT: Improving Specialist LLM Performance with Weakness Case Acquisition and Iterative Preference Training</div>
+                    <div class="paper-authors">Jun Rao, Zepeng Lin, Xuebo Liu, Xiaopeng Ke, Lian Lian, Dong Jin, Shengjun Cheng, Jun Yu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">UnrealLLM: Towards Highly Controllable and Interactable 3D Scene Generation by LLM-powered Procedural Content Generation</div>
+                    <div class="paper-authors">Song Tang, Kaiyong Zhao, Lei Wang, Yuliang Li, Xuebo Liu, Junyi Zou, Qiang Wang, Xiaowen Chu</div>
+                    <div class="paper-venue">Proceedings of ACL 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Weight-Aware Activation Sparsity with Constrained Bayesian Optimization Scheduling for Large Language Models</div>
+                    <div class="paper-authors">Ming Wang, Miao Zhang, Xuebo Liu, Liqiang Nie</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">AQuilt: Weaving Logic and Self-Inspection into Low-Cost, High-Relevance Data Synthesis for Specialist LLMs</div>
+                    <div class="paper-authors">Xiaopeng Ke, Hexuan Deng, Xuebo Liu, Jun Rao, Zhenxi Song, Jun Yu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">CDT: A Comprehensive Capability Framework for Large Language Models Across Cognition, Domain, and Task</div>
+                    <div class="paper-authors">Haosi Mo, Xinyu Ma, Xuebo Liu, Derek F. Wong, Yu Li, Jie Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">DynamicKV: Task-Aware Adaptive KV Cache Compression for Long Context LLMs</div>
+                    <div class="paper-authors">Xiabin Zhou, Wenbin Wang, Minyan Zeng, Jiaxian Guo, Xuebo Liu, Li Shen, Min Zhang, Liang Ding</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">AgentInit: Initializing LLM-based Multi-Agent Systems via Diversity and Expertise Orchestration for Effective and Efficient Collaboration</div>
+                    <div class="paper-authors">Chunhao Tian, Yutong Wang, Xuebo Liu, Zhexuan Wang, Liang Ding, Miao Zhang, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">SeaPO: Strategic Error Amplification for Robust Preference Optimization of Large Language Models</div>
+                    <div class="paper-authors">Jun Rao, Yunjie Liao, Xuebo Liu, Zepeng Lin, Lian Lian, Dong Jin, Shengjun Cheng, Jun Yu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Runaway is Ashamed, But Helpful: On the Early-Exit Behavior of Large Language Model-based Agents in Embodied Environments</div>
+                    <div class="paper-authors">Qingyu Lu, Liang Ding, Siyi Cao, Xuebo Liu, Kanjian Zhang, Jinxia Zhang, Dacheng Tao</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2025 Findings</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">DelTA: An Online Document-Level Translation Agent Based on Multi-Level Memory</div>
+                    <div class="paper-authors">Yutong Wang, Jiali Zeng, Xuebo Liu, Derek F. Wong, Fandong Meng, Jie Zhou, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ICLR 2025</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2410.08143" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/YutongWang1216/DocMTAgent" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Knowledge Editing with Dynamic Knowledge Graphs for Multi-hop Question Answering</div>
+                    <div class="paper-authors">Yifan Lu, Yigeng Zhou, Jing Li, Yequan Wang, Xuebo Liu, Daojing He, Fangming Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of AAAI 2025</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2412.13782" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ABi-dot/Kedkg" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Who Wrote This? The Key to Zero-Shot LLM-Generated Text Detection Is GECScore</div>
+                    <div class="paper-authors">Junchao Wu, Runzhe Zhan, Derek F. Wong, Shu Yang, Xuebo Liu, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of COLING 2025</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2405.04286" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/GECScore" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Exploiting Multimodal Knowledge Graph for Multimodal Machine Translation</div>
+                    <div class="paper-authors">Tianjiao Xu, Xuebo Liu, Derek F. Wong, Yue Zhang, Lidia S. Chao, Min Zhang, Tian Gan</div>
+                    <div class="paper-venue">IEEE Transactions on Multimedia</div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Orchestrating Prompt Expertise: Enhancing Knowledge Distillation via Expert-Guided Tuning</div>
+                    <div class="paper-authors">Xv Meng, Jun Rao, Shuhan Qi, Xuebo Liu, Lei Wang, Min Zhang, Xuan Wang</div>
+                    <div class="paper-venue">ACM Transactions on Asian and Low-Resource Language Information Processing</div>
+                </div>
+
+            </div>
+        </section>
 
 
-<h2>Publications</h2>
-<h3>2025</h3>
-<ul>
-    <li type="circle">Zhexuan Wang, Yutong Wang, Xuebo Liu, Liang Ding, Miao Zhang, Jie Liu, Min Zhang. 2025. <b>AgentDropout: Dynamic Agent Elimination for Token-Efficient and High-Performance LLM-Based Multi-Agent Collaboration</b>. In <i>Proceedings of ACL 2025</i>.</li>
-    <br>
-    <li type="circle">Hexuan Deng, Wenxiang Jiao, Xuebo Liu, Jing Li, Min Zhang, Zhaopeng Tu. 2025. <b>DRPruning: Efficient Large Language Model Pruning through Distributionally Robust Optimization</b>. In <i>Proceedings of ACL 2025</i>.</li>
-    <br>
-    <li type="circle">Guanhua Chen, Yutong Yao, Derek F. Wong, Xuebo Liu, Lidia S. Chao. 2025. <b>SGIC: A Self-Guided Iterative Calibration Framework for RAG</b>. In <i>Proceedings of ACL 2025</i>.</li>
-    <br>
-    <li type="circle">Jun Rao, Zepeng Lin, Xuebo Liu, Xiaopeng Ke, Lian Lian, Dong Jin, Shengjun Cheng, Jun Yu, Min Zhang. 2025. <b>APT: Improving Specialist LLM Performance with Weakness Case Acquisition and Iterative Preference Training</b>. In <i>Proceedings of ACL 2025 Findings</i>.</li>
-    <br>
-    <li type="circle">Song Tang, Kaiyong Zhao, Lei Wang, Yuliang Li, Xuebo Liu, Junyi Zou, Qiang Wang, Xiaowen Chu. 2025. <b>UnrealLLM: Towards Highly Controllable and Interactable 3D Scene Generation by LLM-powered Procedural Content Generation</b>. In <i>Proceedings of ACL 2025 Findings</i>.</li>
-    <br>
-    <li type="circle">Ming Wang, Miao Zhang, Xuebo Liu, Liqiang Nie. 2025. <b>Weight-Aware Activation Sparsity with Constrained Bayesian Optimization Scheduling for Large Language Models</b>. In <i>Proceedings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Xiaopeng Ke, Hexuan Deng, Xuebo Liu, Jun Rao, Zhenxi Song, Jun Yu, Min Zhang. 2025. <b>AQuilt: Weaving Logic and Self-Inspection into Low-Cost, High-Relevance Data Synthesis for Specialist LLMs</b>. In <i>Proceedings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Haosi Mo, Xinyu Ma, Xuebo Liu, Derek F. Wong, Yu Li, Jie Liu, Min Zhang. 2025. <b>CDT: A Comprehensive Capability Framework for Large Language Models Across Cognition, Domain, and Task</b>. In <i>Findings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Xiabin Zhou, Wenbin Wang, Minyan Zeng, Jiaxian Guo, Xuebo Liu, Li Shen, Min Zhang, Liang Ding. 2025. <b>DynamicKV: Task-Aware Adaptive KV Cache Compression for Long Context LLMs</b>. In <i>Findings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Chunhao Tian, Yutong Wang, Xuebo Liu, Zhexuan Wang, Liang Ding, Miao Zhang, Min Zhang. 2025. <b>AgentInit: Initializing LLM-based Multi-Agent Systems via Diversity and Expertise Orchestration for Effective and Efficient Collaboration</b>. In <i>Findings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Jun Rao, Yunjie Liao, Xuebo Liu, Zepeng Lin, Lian Lian, Dong Jin, Shengjun Cheng, Jun Yu, Min Zhang. 2025. <b>SeaPO: Strategic Error Amplification for Robust Preference Optimization of Large Language Models</b>. In <i>Findings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Qingyu Lu, Liang Ding, Siyi Cao, Xuebo Liu, Kanjian Zhang, Jinxia Zhang, Dacheng Tao. 2025. <b>Runaway is Ashamed, But Helpful: On the Early-Exit Behavior of Large Language Model-based Agents in Embodied Environments</b>. In <i>Findings of EMNLP 2025</i>.</li>
-    <br>
-    <li type="circle">Yutong Wang, Jiali Zeng, Xuebo Liu, Derek F. Wong, Fandong Meng, Jie Zhou, Min Zhang. 2025. <b>DelTA: An Online Document-Level Translation Agent Based on Multi-Level Memory</b>. In <i> Proceedings of ICLR 2025</i>. [<a href="https://arxiv.org/abs/2410.08143"><font color="#448088">paper</font></a>][<a href="https://github.com/YutongWang1216/DocMTAgent"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yifan Lu, Yigeng Zhou, Jing Li, Yequan Wang, Xuebo Liu, Daojing He, Fangming Liu, Min Zhang. 2025. <b>Knowledge Editing with Dynamic Knowledge Graphs for Multi-hop Question Answering</b>. In <i> Proceedings of AAAI 2025</i>. [<a href="https://arxiv.org/abs/2412.13782"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Junchao Wu, Runzhe Zhan, Derek F. Wong, Shu Yang, Xuebo Liu, Lidia S. Chao, Min Zhang. 2025. <b>Who Wrote This? The Key to Zero-Shot LLM-Generated Text Detection Is GECScore</b>. In <i> Proceedings of COLING 2025</i>. [<a href="https://arxiv.org/abs/2405.04286"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Tianjiao Xu, Xuebo Liu, Derek F. Wong, Yue Zhang, Lidia S. Chao, Min Zhang, Tian Gan. 2025. <b>Exploiting Multimodal Knowledge Graph for Multimodal Machine Translation</b>. In <i>IEEE Transactions on Multimedia</i>.</li>
-    <br>
-    <li type="circle">Xv Meng, Jun Rao, Shuhan Qi, Xuebo Liu, Lei Wang, Min Zhang, Xuan Wang. 2025. <b>Orchestrating Prompt Expertise: Enhancing Knowledge Distillation via Expert-Guided Tuning</b>. In <i>ACM Transactions on Asian and Low-Resource Language Information Processing</i>.</li>
-    <br>
-</ul>
+        <section id="y2024" class="year-section">
+            <div class="year-header">2024</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">LRQuant: Learnable and Robust Post-Training Quantization for Large Language Models</div>
+                    <div class="paper-authors">Jiaqi Zhao, Miao Zhang, Chao Zeng, Ming Wang, Xuebo Liu, Liqiang Nie</div>
+                    <div class="paper-venue">Proceedings of ACL 2024</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.acl-long.122/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/zjq0455/RLQ" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Speech Sense Disambiguation: Tackling Homophone Ambiguity in End-to-End Speech Translation</div>
+                    <div class="paper-authors">Tengfei Yu, Xuebo Liu, Liang Ding, Kehai Chen, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.acl-long.435/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ytf-philp/AmbigST" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">TasTe: Teaching Large Language Models to Translate through Self-Reflection</div>
+                    <div class="paper-authors">Yutong Wang, Jiali Zeng, Xuebo Liu, Fandong Meng, Jie Zhou, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2406.08434" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/YutongWang1216/ReflectionLLMMT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Revisiting Demonstration Selection Strategies in In-Context Learning</div>
+                    <div class="paper-authors">Keqin Peng, Liang Ding, Yancheng Yuan, Xuebo Liu, Min Zhang, Yuanxin Ouyang, Dacheng Tao</div>
+                    <div class="paper-venue">Proceedings of ACL 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2401.12087" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/Romainpkq/revisit_demon_selection_in_ICL" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Towards Demonstration-Aware Large Language Models for Machine Translation</div>
+                    <div class="paper-authors">Chen Li, Meishan Zhang, Xuebo Liu, Zhaocong Li, Derek F. Wong, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.findings-acl.824/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ChenLi0620/Demo-Aware-LLM-MT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Domain-Aware k-Nearest-Neighbor Knowledge Distillation for Machine Translation</div>
+                    <div class="paper-authors">Zhexuan Wang, Shudong Liu, Xuebo Liu, Miao Zhang, Derek F. Wong, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.findings-acl.563/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/wangzx1219/Dk-KD" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">DB-LLM: Accurate Dual-Binarization for Efficient LLMs</div>
+                    <div class="paper-authors">Hong Chen, Chengtao Lv, Liang Ding, Haotong Qin, Xiabin Zhou, Yifu Ding, Xuebo Liu, Min Zhang, Jinyang Guo, Xianglong Liu</div>
+                    <div class="paper-venue">Proceedings of ACL 2024 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2402.11960" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/Hon-Chen/DB-LLM" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Improving Attributed Text Generation of Large Language Models via Preference Learning</div>
+                    <div class="paper-authors">Dongfang Li, Zetian Sun, Baotian Hu, Zhenyu Liu, Xinshuo Hu, Xuebo Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2403.18381" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/HITsz-TMG/ATG-PO" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">CommonIT: Commonality-aware Instruction Tuning for Large Language Models via Data Partitions</div>
+                    <div class="paper-authors">Jun Rao, Xuebo Liu, Lian Lian, Shengjun Cheng, Yunjie Liao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2410.03077" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/raojay7/CommonIT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Can LLMs Learn Uncertainty on Their Own? Expressing Uncertainty Effectively in A Self-Training Manner</div>
+                    <div class="paper-authors">Shudong Liu, Zhaocong Li, Xuebo Liu, Runzhe Zhan, Derek F. Wong, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2024</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.emnlp-main.1205/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/UaIT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Curriculum Consistency Learning for Conditional Sentence Generation</div>
+                    <div class="paper-authors">Liangxin Liu, Xuebo Liu, Lian Lian, Shengjun Cheng, Jun Rao, Tengfei Yu, Hexuan Deng, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2024</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2024.emnlp-main.768/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/xinxinxing/Curriculum-Consistency-Learning" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Self-Powered LLM Modality Expansion for Large Speech-Text Models</div>
+                    <div class="paper-authors">Tengfei Yu, Xuebo Liu, Zhiyi Hou, Liang Ding, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2410.03798" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ytf-philp/Self-powered-LSM" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">LPZero: Language Model Zero-cost Proxy Search from Zero</div>
+                    <div class="paper-authors">Peijie Dong, Lujun Li, Xiang Liu, Zhenheng Tang, Xuebo Liu, Qiang Wang, Xiaowen Chu</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2024 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2410.04808" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">SelectIT: Selective Instruction Tuning for LLMs via Uncertainty-Aware Self-Reflection</div>
+                    <div class="paper-authors">Liangxin Liu, Xuebo Liu, Derek F. Wong, Dongfang Li, Ziyi Wang, Baotian Hu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of NeurIPS 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2402.16705" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/Blue-Raincoat/SelectIT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">NewTerm: Benchmarking Real-Time New Terms for Large Language Models with Annual Updates</div>
+                    <div class="paper-authors">Hexuan Deng, Wenxiang Jiao, Xuebo Liu, Min Zhang, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of NeurIPS 2024 Datasets and Benchmarks Track</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2410.20814" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/hexuandeng/NewTerm" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">EvalCrafter: Benchmarking and Evaluating Large Video Generation Models</div>
+                    <div class="paper-authors">Yaofang Liu, Xiaodong Cun, Xuebo Liu, Xintao Wang, Yong Zhang, Haoxin Chen, Yang Liu, Tieyong Zeng, Raymond Chan, Ying Shan</div>
+                    <div class="paper-venue">Proceedings of CVPR 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2310.11440" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://evalcrafter.github.io/" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Pluggable Neural Machine Translation Models via Memory-augmented Adapters</div>
+                    <div class="paper-authors">Yuzhuang Xu, Shuo Wang, Peng Li, Xuebo Liu, Xiaolong Wang, Weidong Liu, Yang Liu</div>
+                    <div class="paper-venue">Proceedings of COLING 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2307.06029" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/xuyuzhuang11/StyleMT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">3AM: An Ambiguity-Aware Multimodal Machine Translation Dataset</div>
+                    <div class="paper-authors">Xinyu Ma, Xuebo Liu, Derek F. Wong, Jun Rao, Bei Li, Liang Ding, Lidia S. Chao, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of COLING 2024</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2404.18413" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/MaxyLee/3AM" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Understanding and Improving Low-Resource Neural Machine Translation with Shallow Features</div>
+                    <div class="paper-authors">Yanming Sun, Xuebo Liu, Derek F. Wong, Yuchu Lin, Bei Li, Runzhe Zhan, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of NLPCC 2024</div>
+                    <div class="link-tags">
+                        <a href="https://link.springer.com/chapter/10.1007/978-981-97-9437-9_18" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Holistic Exploration on Universal Decompositional Semantic Parsing: Architecture, Data augmentation, and LLM Paradigm</div>
+                    <div class="paper-authors">Hexuan Deng, Xin Zhang, Meishan Zhang, Xuebo Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2024 Workshop (SIGHAN-10)</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2307.13424" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/hexuandeng/HExp4UDS" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="y2023" class="year-section">
+            <div class="year-header">2023</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">Test-time Adaptation for Machine Translation Evaluation by Uncertainty Minimization</div>
+                    <div class="paper-authors">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Cuilian Zhang, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2023</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.acl-long.47/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/TaU" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Revisiting Token Dropping Strategy in Efficient BERT Pretraining</div>
+                    <div class="paper-authors">Qihuang Zhong, Liang Ding, Juhua Liu, Xuebo Liu, Min Zhang, Bo Du, Dacheng Tao</div>
+                    <div class="paper-venue">Proceedings of ACL 2023</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2305.15273" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">kNN-TL: k-Nearest-Neighbor Transfer Learning for Low-Resource Neural Machine Translation</div>
+                    <div class="paper-authors">Shudong Liu, Xuebo Liu, Derek F. Wong, Zhaocong Li, Wenxiang Jiao, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2023</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.acl-long.105/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/kNN-TL" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Revisiting Commonsense Reasoning in Machine Translation: Training, Evaluation and Challenge</div>
+                    <div class="paper-authors">Xuebo Liu, Yutong Wang, Derek F. Wong, Runzhe Zhan, Liangxuan Yu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2023</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.acl-long.866/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/YutongWang1216/CR-NMT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">TemplateGEC: Improving Grammatical Error Correction with Detection Template</div>
+                    <div class="paper-authors">Yinghao Li, Xuebo Liu, Shuo Wang, Peiyuan Gong, Derek F. Wong, Yang Gao, He-Yan Huang, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2023</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.acl-long.380/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/li-aolong/TemplateGEC" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">TransGEC: Improving Grammatical Error Correction with Translationese</div>
+                    <div class="paper-authors">Tao Fang, Xuebo Liu, Derek F. Wong, Runzhe Zhan, Liang Ding, Lidia S. Chao, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2023 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.findings-acl.223/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/TransGEC" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Clustering Pseudo Language Family in Multilingual Translation Models with Fisher Information Matrix</div>
+                    <div class="paper-authors">Xinyu Ma, Xuebo Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2023</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2312.02820" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ecoli-hit/PseudoFamily" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">PromptST: Abstract Prompt Learning for End-to-End Speech Translation</div>
+                    <div class="paper-authors">Tengfei Yu, Liang Ding, Xuebo Liu, Kehai Chen, Meishan Zhang, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2023</div>
+                    <div class="link-tags">
+                        <a href="https://aclanthology.org/2023.emnlp-main.627/" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/ytf-philp/PromptST" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Can LMs Generalize to Future Data? An Empirical Analysis on Text Summarization</div>
+                    <div class="paper-authors">Chi Cheang, Hou Chan, Derek F. Wong, Xuebo Liu, Zhaocong Li, Yanming Sun, Shudong Liu, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2023</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2305.01951" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/TempoSum" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Towards Making The Most of ChatGPT for Machine Translation</div>
+                    <div class="paper-authors">Keqin Peng, Liang Ding, Qihuang Zhong, Li Shen, Xuebo Liu, Min Zhang, Yuanxin Ouyang, Dacheng Tao</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2023 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2303.13780" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/Romainpkq/ChatGPT4MT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Improving Simultaneous Machine Translation with Monolingual Data</div>
+                    <div class="paper-authors">Hexuan Deng, Liang Ding, Xuebo Liu, Meishan Zhang, Dacheng Tao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of AAAI 2023</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2212.01188" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/hexuandeng/Mono4SiMT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Parameter-Efficient and Student-Friendly Knowledge Distillation</div>
+                    <div class="paper-authors">Jun Rao, Xv Meng, Liang Ding, Shuhan Qi, Xuebo Liu, Min Zhang, Dacheng Tao</div>
+                    <div class="paper-venue">Proceedings of IEEE Transactions on Multimedia</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2205.15308" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="y2022" class="year-section">
+            <div class="year-header">2022</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">ODE Transformer: An Ordinary Differential Equation-Inspired Model for Sequence Generation</div>
+                    <div class="paper-authors">Bei Li, Quan Du, Tao Zhou, Yi Jing, Shuhan Zhou, Xin Zeng, Tong Xiao, JingBo Zhu, Xuebo Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of ACL 2022</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2203.09176" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/libeineu/ODE-Transformer" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Breaking the Representation Bottleneck of Chinese Characters: Neural Machine Translation with Stroke Sequence Modeling</div>
+                    <div class="paper-authors">Zhijun Wang, Xuebo Liu, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2022</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2211.12781" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/zjwang21/StrokeNet" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Revisiting Grammatical Error Correction Evaluation and Beyond</div>
+                    <div class="paper-authors">Peiyuan Gong, Xuebo Liu, Heyan Huang, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2022</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2211.01635" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/pygongnlp/PT-M2" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">ConsistTL: Modeling Consistency in Transfer Learning for Low-Resource Neural Machine Translation</div>
+                    <div class="paper-authors">Zhaocong Li, Xuebo Liu, Derek F. Wong, Lidia S. Chao, Min Zhang</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2022</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2212.04262" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/ConsistTL" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="y2021" class="year-section">
+            <div class="year-header">2021</div>
+            <div class="paper-list">
+
+                <div class="paper-item">
+                    <div class="paper-title">Difficulty-Aware Machine Translation Evaluation</div>
+                    <div class="paper-authors">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of ACL 2021</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2107.14402" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/Difficulty-Aware-MT-Evaluation" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Rejuvenating Low-Frequency Words: Making the Most of Parallel Data in Non-Autoregressive Translation</div>
+                    <div class="paper-authors">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ACL 2021</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2106.00903" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/alphadl/RLFW-NAT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">On the Copying Behaviors of Pre-Training for Neural Machine Translation</div>
+                    <div class="paper-authors">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Shuming Shi, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ACL 2021 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2107.08212" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/SunbowLiu/CopyingPenalty" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Progressive Multi-Granularity Training for Non-Autoregressive Translation</div>
+                    <div class="paper-authors">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ACL 2021 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2106.05546" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">On the Complementarity between Pre-Training and Back-Translation for Neural Machine Translation</div>
+                    <div class="paper-authors">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Shuming Shi, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of EMNLP 2021 Findings</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2110.01811" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/SunbowLiu/PTvsBT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Exploiting Translation Model for Parallel Corpus Mining</div>
+                    <div class="paper-authors">Chongman Leong, Xuebo Liu, Derek F. Wong, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of IEEE/ACM Transactions on Audio, Speech, and Language Processing</div>
+                    <div class="link-tags">
+                        <a href="https://ieeexplore.ieee.org/abstract/document/9516978" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Variance-Aware Machine Translation Test Sets</div>
+                    <div class="paper-authors">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of NeurIPS 2021 Datasets and Benchmarks Track</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2111.04079" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/Variance-Aware-MT-Test-Sets" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Understanding and Improving Encoder Layer Fusion in Sequence-to-Sequence Learning</div>
+                    <div class="paper-authors">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ICLR 2021</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2012.14768" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/SunbowLiu/SurfaceFusion" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Understanding and Improving Lexical Choice in Non-Autoregressive Translation</div>
+                    <div class="paper-authors">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu</div>
+                    <div class="paper-venue">Proceedings of ICLR 2021</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2012.14583" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/alphadl/LCNAT" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+                <div class="paper-item">
+                    <div class="paper-title">Meta-Curriculum Learning for Domain Adaptation in Neural Machine Translation</div>
+                    <div class="paper-authors">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of AAAI 2021</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2103.02262" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/Meta-Curriculum" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
 
 
-<h3>2024</h3>
-<ul>
-    <li type="circle">Jiaqi Zhao, Miao Zhang, Chao Zeng, Ming Wang, Xuebo Liu, Liqiang Nie. 2024. <b>LRQuant: Learnable and Robust Post-Training Quantization for Large Language Models</b>. In <i> Proceedings of ACL 2024</i>. [<a href="https://aclanthology.org/2024.acl-long.122/"><font color="#448088">paper</font></a>][<a href="https://github.com/zjq0455/RLQ"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Tengfei Yu, Xuebo Liu, Liang Ding, Kehai Chen, Dacheng Tao, Min Zhang. 2024. <b>Speech Sense Disambiguation: Tackling Homophone Ambiguity in End-to-End Speech Translation</b>. In <i> Proceedings of ACL 2024</i>. [<a href="https://aclanthology.org/2024.acl-long.435/"><font color="#448088">paper</font></a>][<a href="https://github.com/ytf-philp/AmbigST"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yutong Wang, Jiali Zeng, Xuebo Liu, Fandong Meng, Jie Zhou, Min Zhang. 2024. <b>TasTe: Teaching Large Language Models to Translate through Self-Reflection</b>. In <i> Proceedings of ACL 2024</i>. [<a href="https://arxiv.org/abs/2406.08434"><font color="#448088">paper</font></a>][<a href="https://github.com/YutongWang1216/ReflectionLLMMT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Keqin Peng, Liang Ding, Yancheng Yuan, Xuebo Liu, Min Zhang, Yuanxin Ouyang, Dacheng Tao. 2024. <b>Revisiting Demonstration Selection Strategies in In-Context Learning</b>. In <i> Proceedings of ACL 2024</i>. [<a href="https://arxiv.org/abs/2401.12087"><font color="#448088">paper</font></a>][<a href="https://github.com/Romainpkq/revisit_demon_selection_in_ICL"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Chen Li, Meishan Zhang, Xuebo Liu, Zhaocong Li, Derek F. Wong, Min Zhang. 2024. <b>Towards Demonstration-Aware Large Language Models for Machine Translation</b>. In <i> Proceedings of ACL 2024 Findings</i>. [<a href="https://aclanthology.org/2024.findings-acl.824/"><font color="#448088">paper</font></a>][<a href="https://github.com/ChenLi0620/Demo-Aware-LLM-MT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Zhexuan Wang, Shudong Liu, Xuebo Liu, Miao Zhang, Derek F. Wong, Min Zhang. 2024. <b>Domain-Aware k-Nearest-Neighbor Knowledge Distillation for Machine Translation</b>. In <i> Proceedings of ACL 2024 Findings</i>. [<a href="https://aclanthology.org/2024.findings-acl.563/"><font color="#448088">paper</font></a>][<a href="https://github.com/wangzx1219/Dk-KD"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Hong Chen, Chengtao Lv, Liang Ding, Haotong Qin, Xiabin Zhou, Yifu Ding, Xuebo Liu, Min Zhang, Jinyang Guo, Xianglong Liu. 2024. <b>DB-LLM: Accurate Dual-Binarization for Efficient LLMs</b>. In <i> Proceedings of ACL 2024 Findings</i>. [<a href="https://arxiv.org/abs/2402.11960"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Dongfang Li, Zetian Sun, Baotian Hu, Zhenyu Liu, Xinshuo Hu, Xuebo Liu, Min Zhang. 2024. <b>Improving Attributed Text Generation of Large Language Models via Preference Learning</b>. In <i> Proceedings of ACL 2024 Findings</i>. [<a href="https://arxiv.org/abs/2403.18381"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Jun Rao, Xuebo Liu, Lian Lian, Shengjun Cheng, Yunjie Liao, Min Zhang. 2024. <b>CommonIT: Commonality-aware Instruction Tuning for Large Language Models via Data Partitions</b>. In <i> Proceedings of EMNLP 2024</i>. [<a href="https://arxiv.org/abs/2410.03077"><font color="#448088">paper</font></a>][<a href="https://github.com/raojay7/CommonIT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Shudong Liu, Zhaocong Li, Xuebo Liu, Runzhe Zhan, Derek F. Wong, Lidia S. Chao, Min Zhang. 2024. <b>Can LLMs Learn Uncertainty on Their Own? Expressing Uncertainty Effectively in A Self-Training Manner</b>. In <i> Proceedings of EMNLP 2024</i>. [<a href="https://aclanthology.org/2024.emnlp-main.1205/"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Liangxin Liu, Xuebo Liu, Lian Lian, Shengjun Cheng, Jun Rao, Tengfei Yu, Hexuan Deng, Min Zhang. 2024. <b>Curriculum Consistency Learning for Conditional Sentence Generation</b>. In <i> Proceedings of EMNLP 2024</i>. [<a href="https://aclanthology.org/2024.emnlp-main.768/"><font color="#448088">paper</font></a>][<a href="https://github.com/xinxinxing/Curriculum-Consistency-Learning"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Tengfei Yu, Xuebo Liu, Zhiyi Hou, Liang Ding, Dacheng Tao, Min Zhang. 2024. <b>Self-Powered LLM Modality Expansion for Large Speech-Text Models</b>. In <i> Proceedings of EMNLP 2024</i>. [<a href="https://arxiv.org/abs/2410.03798"><font color="#448088">paper</font></a>][<a href="https://github.com/ytf-philp/Self-powered-LSM"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Peijie Dong, Lujun Li, Xiang Liu, Zhenheng Tang, Xuebo Liu, Qiang Wang, Xiaowen Chu. 2024. <b>LPZero: Language Model Zero-cost Proxy Search from Zero</b>. In <i> Proceedings of EMNLP 2024 Findings</i>. [<a href="https://arxiv.org/abs/2410.04808"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Liangxin Liu, Xuebo Liu, Derek F. Wong, Dongfang Li, Ziyi Wang, Baotian Hu, Min Zhang. 2024. <b>SelectIT: Selective Instruction Tuning for LLMs via Uncertainty-Aware Self-Reflection</b>. In <i> Proceedings of NeurIPS 2024</i>. [<a href="https://arxiv.org/abs/2402.16705"><font color="#448088">paper</font></a>][<a href="https://github.com/Blue-Raincoat/SelectIT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Hexuan Deng, Wenxiang Jiao, Xuebo Liu, Min Zhang, Zhaopeng Tu. 2024. <b>NewTerm: Benchmarking Real-Time New Terms for Large Language Models with Annual Updates</b>. In <i> Proceedings of NeurIPS 2024 Datasets and Benchmarks Track</i>. [<a href="https://arxiv.org/abs/2410.20814"><font color="#448088">paper</font></a>][<a href="https://github.com/hexuandeng/NewTerm"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yaofang Liu, Xiaodong Cun, Xuebo Liu, Xintao Wang, Yong Zhang, Haoxin Chen, Yang Liu, Tieyong Zeng, Raymond Chan, Ying Shan. 2024. <b>EvalCrafter: Benchmarking and Evaluating Large Video Generation Models</b>. In <i> Proceedings of CVPR 2024</i>. [<a href="https://arxiv.org/abs/2310.11440"><font color="#448088">paper</font></a>][<a href="https://evalcrafter.github.io/"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yuzhuang Xu, Shuo Wang, Peng Li, Xuebo Liu, Xiaolong Wang, Weidong Liu, Yang Liu. 2024. <b>Pluggable Neural Machine Translation Models via Memory-augmented Adapters</b>. In <i> Proceedings of COLING 2024</i>. [<a href="https://arxiv.org/abs/2307.06029"><font color="#448088">paper</font></a>][<a href="https://github.com/xuyuzhuang11/StyleMT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xinyu Ma, Xuebo Liu, Derek F. Wong, Jun Rao, Bei Li, Liang Ding, Lidia S. Chao, Dacheng Tao, Min Zhang. 2024. <b>3AM: An Ambiguity-Aware Multimodal Machine Translation Dataset</b>. In <i> Proceedings of COLING 2024</i>. [<a href="https://arxiv.org/abs/2404.18413"><font color="#448088">paper</font></a>][<a href="https://github.com/MaxyLee/3AM"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yanming Sun, Xuebo Liu, Derek F. Wong, Yuchu Lin, Bei Li, Runzhe Zhan, Lidia S. Chao, Min Zhang. 2024. <b>Understanding and Improving Low-Resource Neural Machine Translation with Shallow Features</b>. In <i> Proceedings of NLPCC 2024</i>. [<a href="https://link.springer.com/chapter/10.1007/978-981-97-9437-9_18"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Hexuan Deng, Xin Zhang, Meishan Zhang, Xuebo Liu, Min Zhang. 2024. <b>Holistic Exploration on Universal Decompositional Semantic Parsing: Architecture, Data augmentation, and LLM Paradigm</b>. In <i> Proceedings of ACL 2024 Workshop (SIGHAN-10)</i>. [<a href="https://arxiv.org/abs/2307.13424"><font color="#448088">paper</font></a>][<a href="https://github.com/hexuandeng/HExp4UDS"><font color="purple">code</font></a>]</li>
-    <br>
-</ul>
+        <section id="y2020" class="year-section">
+            <div class="year-header">Until 2020</div>
+            <div class="paper-list">
 
-<h3>2023</h3>
-<ul>
-    <li type="circle">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Cuilian Zhang, Lidia S. Chao, Min Zhang. 2023. <b>Test-time Adaptation for Machine Translation Evaluation by Uncertainty Minimization</b>. In <i> Proceedings of ACL 2023</i>. [<a href="https://aclanthology.org/2023.acl-long.47/"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/TaU"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Qihuang Zhong, Liang Ding, Juhua Liu, Xuebo Liu, Min Zhang, Bo Du, Dacheng Tao. 2023. <b>Revisiting Token Dropping Strategy in Efficient BERT Pretraining</b>. In <i> Proceedings of ACL 2023</i>. [<a href="https://arxiv.org/abs/2305.15273"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Shudong Liu, Xuebo Liu, Derek F. Wong, Zhaocong Li, Wenxiang Jiao, Lidia S. Chao, Min Zhang. 2023. <b>kNN-TL: k-Nearest-Neighbor Transfer Learning for Low-Resource Neural Machine Translation</b>. In <i> Proceedings of ACL 2023</i>. [<a href="https://aclanthology.org/2023.acl-long.105/"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/kNN-TL"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Yutong Wang, Derek F. Wong, Runzhe Zhan, Liangxuan Yu, Min Zhang. 2023. <b>Revisiting Commonsense Reasoning in Machine Translation: Training, Evaluation and Challenge</b>. In <i> Proceedings of ACL 2023</i>. [<a href="https://aclanthology.org/2023.acl-long.866/"><font color="#448088">paper</font></a>][<a href="https://github.com/YutongWang1216/CR-NMT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Yinghao Li, Xuebo Liu, Shuo Wang, Peiyuan Gong, Derek F. Wong, Yang Gao, He-Yan Huang, Min Zhang. 2023. <b>TemplateGEC: Improving Grammatical Error Correction with Detection Template</b>. In <i> Proceedings of ACL 2023</i>. [<a href="https://aclanthology.org/2023.acl-long.380/"><font color="#448088">paper</font></a>][<a href="https://github.com/li-aolong/TemplateGEC"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Tao Fang, Xuebo Liu, Derek F. Wong, Runzhe Zhan, Liang Ding, Lidia S. Chao, Dacheng Tao, Min Zhang. 2023. <b>TransGEC: Improving Grammatical Error Correction with Translationese</b>. In <i> Proceedings of ACL 2023 Findings</i>. [<a href="https://aclanthology.org/2023.findings-acl.223/"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/TransGEC"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xinyu Ma, Xuebo Liu, Min Zhang. 2023. <b>Clustering Pseudo Language Family in Multilingual Translation Models with Fisher Information Matrix</b>. In <i> Proceedings of EMNLP 2023</i>. [<a href="https://arxiv.org/abs/2312.02820"><font color="#448088">paper</font></a>][<a href="https://github.com/ecoli-hit/PseudoFamily"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Tengfei Yu, Liang Ding, Xuebo Liu, Kehai Chen, Meishan Zhang, Dacheng Tao, Min Zhang. 2023. <b>PromptST: Abstract Prompt Learning for End-to-End Speech Translation</b>. In <i> Proceedings of EMNLP 2023</i>. [<a href="https://aclanthology.org/2023.emnlp-main.627/"><font color="#448088">paper</font></a>][<a href="https://github.com/ytf-philp/PromptST"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Chi Cheang, Hou Chan, Derek F. Wong, Xuebo Liu, Zhaocong Li, Yanming Sun, Shudong Liu, Lidia S. Chao. 2023. <b>Can LMs Generalize to Future Data? An Empirical Analysis on Text Summarization</b>. In <i> Proceedings of EMNLP 2023</i>. [<a href="https://arxiv.org/abs/2305.01951"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/TempoSum"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Keqin Peng, Liang Ding, Qihuang Zhong, Li Shen, Xuebo Liu, Min Zhang, Yuanxin Ouyang, Dacheng Tao. 2023. <b>Towards Making The Most of ChatGPT for Machine Translation</b>. In <i> Proceedings of EMNLP 2023 Findings</i>. [<a href="https://arxiv.org/abs/2303.13780"><font color="#448088">paper</font></a>][<a href="https://github.com/Romainpkq/ChatGPT4MT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Hexuan Deng, Liang Ding, Xuebo Liu, Meishan Zhang, Dacheng Tao, Min Zhang. 2022. <b>Improving Simultaneous Machine Translation with Monolingual Data</b>. In <i> Proceedings of AAAI 2023</i>. [<a href="https://arxiv.org/abs/2212.01188"><font color="#448088">paper</font></a>][<a href="https://github.com/hexuandeng/Mono4SiMT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Jun Rao, Xv Meng, Liang Ding, Shuhan Qi, Xuebo Liu, Min Zhang, Dacheng Tao. 2023. <b>Parameter-Efficient and Student-Friendly Knowledge Distillation</b>. In <i> Proceedings of IEEE Transactions on Multimedia</i>. [<a href="https://arxiv.org/abs/2205.15308"><font color="#448088">paper</font></a>]</li>
-    <br>
-</ul>
+                <div class="paper-item">
+                    <div class="paper-title">Norm-Based Curriculum Learning for Neural Machine Translation</div>
+                    <div class="paper-authors">Xuebo Liu, Houtim Lai, Derek F. Wong, Lidia S. Chao</div>
+                    <div class="paper-venue">Proceedings of ACL 2020</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/2006.02014" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                        <a href="https://github.com/NLP2CT/norm-nmt" class="tag-btn"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
 
-<h3>2022</h3>
-<ul>
-    <li type="circle">Bei Li, Quan Du, Tao Zhou, Yi Jing, Shuhan Zhou, Xin Zeng, Tong Xiao, JingBo Zhu, Xuebo Liu, Min Zhang. 2022. <b>ODE Transformer: An Ordinary Differential Equation-Inspired Model for Sequence Generation</b>. In <i> Proceedings of ACL 2022</i>. [<a href="https://arxiv.org/abs/2203.09176"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Zhijun Wang, Xuebo Liu, Min Zhang. 2022. <b>Breaking the Representation Bottleneck of Chinese Characters: Neural Machine Translation with Stroke Sequence Modeling</b>. In <i> Proceedings of EMNLP 2022</i>. [<a href="https://arxiv.org/abs/2211.12781"><font color="#448088">paper</font></a>][<a href="https://github.com/zjwang21/StrokeNet"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Peiyuan Gong, Xuebo Liu, Heyan Huang, Min Zhang. 2022. <b>Revisiting Grammatical Error Correction Evaluation and Beyond</b>. In <i> Proceedings of EMNLP 2022</i>. [<a href="https://arxiv.org/abs/2211.01635"><font color="#448088">paper</font></a>][<a href="https://github.com/pygongnlp/PT-M2"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Zhaocong Li, Xuebo Liu, Derek F. Wong, Lidia S. Chao, Min Zhang. 2022. <b>ConsistTL: Modeling Consistency in Transfer Learning for Low-Resource Neural Machine Translation</b>. In <i> Proceedings of EMNLP 2022</i>. [<a href="https://arxiv.org/abs/2212.04262"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/ConsistTL"><font color="purple">code</font></a>]</li>
-    <br>
-</ul>
+                <div class="paper-item">
+                    <div class="paper-title">Shared-Private Bilingual Word Embeddings for Neural Machine Translation</div>
+                    <div class="paper-authors">Xuebo Liu, Derek F. Wong, Yang Liu, Lidia S. Chao, Tong Xiao, Jingbo Zhu</div>
+                    <div class="paper-venue">Proceedings of ACL 2019</div>
+                    <div class="link-tags">
+                        <a href="https://arxiv.org/abs/1906.03100" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
 
+                <div class="paper-item">
+                    <div class="paper-title">Latent Attribute Based Hierarchical Decoder for Neural Machine Translation</div>
+                    <div class="paper-authors">Xuebo Liu, Derek F. Wong, Lidia S. Chao, Yang Liu</div>
+                    <div class="paper-venue">Proceedings of IEEE/ACM Transactions on Audio, Speech, and Language Processing</div>
+                    <div class="link-tags">
+                        <a href="https://ieeexplore.ieee.org/abstract/document/8839081" class="tag-btn"><i class="fas fa-file-alt"></i> Paper</a>
+                    </div>
+                </div>
 
-<h3>2021</h3>
-<ul>
-    <li type="circle">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao. 2021. <b>Difficulty-Aware Machine Translation Evaluation</b>. In <i> Proceedings of ACL 2021</i>. [<a href="https://arxiv.org/abs/2107.14402"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/Difficulty-Aware-MT-Evaluation"><font color="purple">code</font></a>]</li>
-    <br>
+            </div>
+        </section>
 
-    <li type="circle">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu. 2021. <b>Rejuvenating Low-Frequency Words: Making the Most of Parallel Data in Non-Autoregressive Translation</b>. In <i> Proceedings of ACL 2021</i>. [<a href="https://arxiv.org/abs/2106.00903"><font color="#448088">paper</font></a>][<a href="https://github.com/alphadl/RLFW-NAT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Shuming Shi, Zhaopeng Tu. 2021. <b>On the Copying Behaviors of Pre-Training for Neural Machine Translation</b>. In <i> Proceedings of ACL 2021 Findings</i>. [<a href="https://arxiv.org/abs/2107.08212"><font color="#448088">paper</font></a>][<a href="https://github.com/SunbowLiu/CopyingPenalty"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu. 2021. <b>Progressive Multi-Granularity Training for Non-Autoregressive Translation</b>. In <i> Proceedings of ACL 2021 Findings</i>. [<a href="https://arxiv.org/abs/2106.05546"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Shuming Shi, Zhaopeng Tu. 2021. <b>On the Complementarity between Pre-Training and Back-Translation for Neural Machine Translation</b>. In <i> Proceedings of EMNLP 2021 Findings</i>. [<a href="https://arxiv.org/abs/2110.01811"><font color="#448088">paper</font></a>][<a href="https://github.com/SunbowLiu/PTvsBT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Chongman Leong, Xuebo Liu, Derek F. Wong, Lidia S. Chao. 2021. <b>Exploiting Translation Model for Parallel Corpus Mining</b>. In <i> Proceedings of IEEE/ACM Transactions on Audio, Speech, and Language Processing</i>. [<a href="https://ieeexplore.ieee.org/abstract/document/9516978"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao. 2021. <b>Variance-Aware Machine Translation Test Sets</b>. In <i> Proceedings of NeurIPS 2021 Datasets and Benchmarks Track</i>. [<a href="https://arxiv.org/abs/2111.04079"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/Variance-Aware-MT-Test-Sets"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Longyue Wang, Derek F. Wong, Liang Ding, Lidia S. Chao, Zhaopeng Tu. 2021. <b>Understanding and Improving Encoder Layer Fusion in Sequence-to-Sequence Learning</b>. In <i> Proceedings of ICLR 2021</i>. [<a href="https://arxiv.org/abs/2012.14768"><font color="#448088">paper</font></a>][<a href="https://github.com/SunbowLiu/SurfaceFusion"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Liang Ding, Longyue Wang, Xuebo Liu, Derek F. Wong, Dacheng Tao, Zhaopeng Tu. 2021. <b>Understanding and Improving Lexical Choice in Non-Autoregressive Translation</b>. In <i> Proceedings of ICLR 2021</i>. [<a href="https://arxiv.org/abs/2012.14583"><font color="#448088">paper</font></a>][<a href="https://github.com/alphadl/LCNAT"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Runzhe Zhan, Xuebo Liu, Derek F. Wong, Lidia S. Chao. 2021. <b>Meta-Curriculum Learning for Domain Adaptation in Neural Machine Translation</b>. In <i> Proceedings of AAAI 2021</i>. [<a href="https://arxiv.org/abs/2103.02262"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/Meta-Curriculum"><font color="purple">code</font></a>]</li>
-    <br>
-</ul>
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); text-align: center;">
+            <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=300&t=n&d=jg9P5yM7Ulsk_nFWGOX_NlDsGeBNBfrjG4LT8eCT7W4&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
+        </div>
 
-<h3>Until 2020</h3>
-<ul>
-    <li type="circle">Xuebo Liu, Houtim Lai, Derek F. Wong, Lidia S. Chao. 2020. <b>Norm-Based Curriculum Learning for Neural Machine Translation</b>. In <i> Proceedings of ACL 2020</i>. [<a href="https://arxiv.org/abs/2006.02014"><font color="#448088">paper</font></a>][<a href="https://github.com/NLP2CT/norm-nmt"><font color="purple">code</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Derek F. Wong, Yang Liu, Lidia S. Chao, Tong Xiao, Jingbo Zhu. 2019. <b>Shared-Private Bilingual Word Embeddings for Neural Machine Translation</b>. In <i> Proceedings of ACL 2019</i>. [<a href="https://arxiv.org/abs/1906.03100"><font color="#448088">paper</font></a>]</li>
-    <br>
-    <li type="circle">Xuebo Liu, Derek F. Wong, Lidia S. Chao, Yang Liu. 2019. <b>Latent Attribute Based Hierarchical Decoder for Neural Machine Translation</b>. In <i> Proceedings of IEEE/ACM Transactions on Audio, Speech, and Language Processing</i>. [<a href="https://ieeexplore.ieee.org/abstract/document/8839081"><font color="#448088">paper</font></a>]</li>
-    <br>
-</ul>
-<br>
-<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller>
-<script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=300&t=n&d=jg9P5yM7Ulsk_nFWGOX_NlDsGeBNBfrjG4LT8eCT7W4&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
-</body></html>
+    </main>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. 找到左侧导航栏所有的年份链接
+        const navLinks = document.querySelectorAll('.year-nav .year-link');
+
+        navLinks.forEach(link => {
+            // 2. 获取链接对应的 section ID (例如 #y2025)
+            const targetId = link.getAttribute('href');
+            const section = document.querySelector(targetId);
+
+            if (section) {
+                // 3. 统计该 section 下 .paper-item 的数量
+                const count = section.querySelectorAll('.paper-item').length;
+
+                // 4. 创建显示数量的 Badge
+                const badge = document.createElement('span');
+                badge.textContent = count;
+
+                // 5. 设置 Badge 的样式 (胶囊形状，浅灰色背景)
+                Object.assign(badge.style, {
+                    backgroundColor: '#e2e8f0',
+                    color: '#475569',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    marginLeft: '10px'
+                });
+
+                // 6. 修改链接布局为 Flex，使文字和数字两端对齐
+                link.style.display = 'flex';
+                link.style.justifyContent = 'space-between';
+                link.style.alignItems = 'center';
+
+                // 7. 将 Badge 添加到链接中
+                link.appendChild(badge);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
