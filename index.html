@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/visitor-map.css">
 
     <style>
         :root {
@@ -411,8 +412,14 @@
             </a>
         </div>
 
-        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;">
-            <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=230&t=n&d=jg9P5yM7Ulsk_nFWGOX_NlDsGeBNBfrjG4LT8eCT7W4&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
+        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e2e8f0; text-align: center;">
+            <div class="visitor-map" data-width="230" aria-label="Visitor footprint map">
+                <div class="visitor-map__canvas">
+                    <div class="visitor-map__loading"><span class="visitor-map__spinner"></span> Loading map</div>
+                    <div class="visitor-map__tooltip"></div>
+                </div>
+                <div class="visitor-map__caption">Loading visits</div>
+            </div>
         </div>
     </aside>
 
@@ -568,6 +575,9 @@
     ga('create', 'UA-66888300-1', 'auto');
     ga('send', 'pageview');
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="js/visitor-map.js"></script>
 
 </body>
 </html>
