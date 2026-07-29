@@ -308,9 +308,10 @@
         /* Research Interests 专属样式 */
         .interests-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 自动适应宽度，手机单列，PC两列 */
+            grid-template-columns: minmax(280px, 1fr);
             gap: 20px;
             margin-top: 15px;
+            justify-content: center;
         }
 
         .interest-item {
@@ -351,7 +352,42 @@
         .interest-title-text {
             font-weight: 700;
             color: var(--secondary-color);
-            font-size: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .interest-summary {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px 18px;
+            margin-bottom: 4px;
+        }
+
+        .focus-block {
+            border-left: 3px solid #bfdbfe;
+            padding-left: 12px;
+        }
+
+        .focus-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .focus-title i {
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
         }
 
         .tag-container {
@@ -368,6 +404,12 @@
             border-radius: 6px;
             border: 1px solid #cbd5e1;
             font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* 不同类别的标签微调 */
@@ -445,31 +487,55 @@
         <section class="section-card">
             <h2 class="section-title">Research Interests</h2>
             <div class="interests-grid">
-
-                <div class="interest-item">
-                    <div class="interest-header">
-                        <div class="interest-icon"><i class="fas fa-robot"></i></div>
-                        <div class="interest-title-text">Large Language Models</div>
-                    </div>
-                    <div class="tag-container">
-                        <span class="tech-tag">Synthetic Data</span>
-                        <span class="tech-tag">Superalignment</span>
-                        <span class="tech-tag">Domain Adaptation</span>
-                        <span class="tech-tag">Evaluation</span>
-                    </div>
-                </div>
-
                 <div class="interest-item">
                     <div class="interest-header">
                         <div class="interest-icon"><i class="fas fa-network-wired"></i></div>
-                        <div class="interest-title-text">Multi-agent Systems</div>
+                        <div class="interest-title-text">LLM-based Multi-agent Systems</div>
                     </div>
-                    <div class="tag-container">
-                        <span class="tech-tag">Theory</span>
-                        <span class="tech-tag">Architecture</span>
-                        <span class="tech-tag">Efficiency</span>
-                        <span class="tech-tag">Applications</span>
-                        <span class="tech-tag">Coordination</span>
+
+                    <p class="interest-summary">
+                        I aim to build efficient and controllable multi-agent systems throughout their full lifecycle, from initialization and pre-run optimization to runtime coordination, memory, evolution, and real-world applications.
+                    </p>
+
+                    <div class="focus-grid">
+                        <div class="focus-block">
+                            <div class="focus-title"><i class="fas fa-route"></i> Lifecycle Optimization</div>
+                            <div class="tag-container">
+                                <span class="tech-tag">System Initialization</span>
+                                <span class="tech-tag">Pre-run Optimization</span>
+                                <span class="tech-tag">Runtime Optimization</span>
+                            </div>
+                        </div>
+
+                        <div class="focus-block">
+                            <div class="focus-title"><i class="fas fa-brain"></i> Memory and Evolution</div>
+                            <div class="tag-container">
+                                <span class="tech-tag">Memory Management</span>
+                                <span class="tech-tag">Context Injection</span>
+                                <span class="tech-tag">Error Attribution</span>
+                                <span class="tech-tag">Credit Assignment</span>
+                            </div>
+                        </div>
+
+                        <div class="focus-block">
+                            <div class="focus-title"><i class="fas fa-layer-group"></i> MAS Infrastructure</div>
+                            <div class="tag-container">
+                                <span class="tech-tag">Collaboration Traces</span>
+                                <span class="tech-tag">Evaluation Benchmarks</span>
+                                <span class="tech-tag">Interactive Sandboxes</span>
+                                <span class="tech-tag">Tool Protocols</span>
+                            </div>
+                        </div>
+
+                        <div class="focus-block">
+                            <div class="focus-title"><i class="fas fa-flask"></i> Applications</div>
+                            <div class="tag-container">
+                                <span class="tech-tag">Deep Research</span>
+                                <span class="tech-tag">Scientific Discovery</span>
+                                <span class="tech-tag">Social Simulation</span>
+                                <span class="tech-tag">Game Intelligence</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
